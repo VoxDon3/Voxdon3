@@ -32,7 +32,24 @@
       var firmware = firmwareMatch ? firmwareMatch[1] : "";
       document.getElementById("current-fw").textContent = firmware || "Not detected";
     } catch (e) { }
-    try { document.getElementById("run-jb").focus(); } catch (e) { }
+
+    try { 
+      document.getElementById("run-jb").focus(); 
+    } catch (e) { }
+
+    // --- التعديل المضاف للتشغيل التلقائي والانتقال لبيانات Payload Manager ---
+    window.addEventListener('DOMContentLoaded', (event) => {
+      // التحقق مما إذا كانت الصفحة قد عادت بعد نجاح الجلبريك، أو تنفيذ الضغط التلقائي
+      // يمكنك ربط هذا الرابط بالصفحة أو مسار الواجهة الخاص بـ Payload Manager بعد الحقن
+      setTimeout(function() {
+        var urlParams = new URLSearchParams(window.location.search);
+        // إذا انتهى محرك الثغرة، نقوم بتحويل المستخدم تلقائياً لصفحة إرسال/إدارة البيلودات الخاصة بك
+        if (urlParams.get('auto_launch') === '1') {
+             // يمكنك تعديل هذا الرابط ليوجهك مباشرة لواجهة الـ Payload Manager أو الـ Sender
+             window.location.href = "slopkit/poops.html?payload=1&target=pldmgr"; 
+        }
+      }, 4000);
+    });
   </script>
 </body>
 </html>
